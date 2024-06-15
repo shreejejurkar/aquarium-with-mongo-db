@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aquarium
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aquarium
+  template:
+    metadata:
+      labels:
+        app: aquarium
+    spec:
+      containers:
+      - name: aquarium
+        image: aquarium
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+        env:
+          # Note that the following environment variable is converted to a
+          # property override called spring.profiles.active when read by Spring
+          - name: SPRING_PROFILES_ACTIVE
+            value: local-cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aquarium
+  namespace: default
+spec:
+  selector:
+    app: aquarium
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080

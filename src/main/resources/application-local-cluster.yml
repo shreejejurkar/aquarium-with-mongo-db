@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: aquarium-with-mongo-db
+
+  data:
+    mongodb:
+      host: my-mongo-db-svc.mongo.svc.cluster.local
+      port: 27017
+      database: aquarium
+      username: my-app-user
+      password: <password>
